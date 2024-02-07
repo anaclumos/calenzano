@@ -56,5 +56,5 @@ class Benchmark:
         plt.ylabel("Accuracy (%)")
         plt.title("Model Comparison")
         plt.legend()
-        plt.savefig("./dump/model_comparison.png")
+        plt.savefig("./dump/model_comparison.png", dpi=1200)
         plt.show()
