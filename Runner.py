@@ -43,7 +43,7 @@ class Runner:
         plt.plot(epochs, accuracies, "-o")
         plt.xlabel("Epoch")
         plt.ylabel("Accuracy (%)")
-        plt.title("Accuracy Improvement Over Epochs")
+        plt.title(f"Accuracy of {self.model_name}")
         plt.savefig(self.accuracy_plot_path, dpi=1200)
 
     def accuracies(self):
