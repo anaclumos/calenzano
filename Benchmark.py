@@ -26,7 +26,7 @@ class Benchmark:
         Run benchmarking for all models sequentially.
         """
         for model, name in zip(self.models, self.model_names):
-            print(f"Running model: {name}")
+            print(f"\n\n=== {name} ===\n")
             self.run_model(model, name)
 
         self.plot_results()

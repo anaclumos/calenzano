@@ -23,11 +23,7 @@ class Runner:
             self.accuracy_plot_path = os.path.join(
                 base_path, model_name, "accuracy_plot.png"
             )
-        else:
-            self.model_path = os.path.join(base_path, "models")
-            self.accuracy_path = os.path.join(base_path, "accuracies.json")
-            self.accuracy_plot_path = os.path.join(base_path, "accuracy_plot.png")
-        os.makedirs(self.model_path, exist_ok=True)
+            os.makedirs(self.model_path, exist_ok=True)
 
     def set_model(self, model, model_name):
         self.model = model.to(self.device)
