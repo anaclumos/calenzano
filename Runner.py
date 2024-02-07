@@ -5,12 +5,19 @@ import matplotlib.pyplot as plt
 import torch
 import torch.nn as nn
 import torch.optim as optim
-import torchvision.transforms as transforms
 
 
 class Runner:
     def __init__(self):
-        self.device = "cuda" if torch.cuda.is_available() else "cpu"
+        if torch.cuda.is_available():
+            print(f"Using NVIDIA GPU")
+            self.device = torch.device("cuda")
+        elif torch.backends.mps.is_available():
+            print(f"Using Metal Acceleration (MPS) on Apple GPU")
+            self.device = torch.device("mps")
+        else:
+            print("Using CPU")
+            self.device = torch.device("cpu")
         self.model = None
         self.model_name = ""
         self.init_paths()
