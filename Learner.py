@@ -7,8 +7,8 @@ import torch.nn as nn
 import torch.optim as optim
 
 
-class Runner:
-    def __init__(self):
+class Learner:
+    def __init__(self, base_path="./dump"):
         if torch.cuda.is_available():
             print(f"Using NVIDIA GPU")
             self.device = torch.device("cuda")
@@ -20,15 +20,18 @@ class Runner:
             self.device = torch.device("cpu")
         self.model = None
         self.model_name = ""
+        self.base_path = base_path
         self.init_paths()
 
     def init_paths(self, model_name=""):
-        base_path = "./dump"
+
         if model_name:
-            self.model_path = os.path.join(base_path, model_name, "models")
-            self.accuracy_path = os.path.join(base_path, model_name, "accuracies.json")
+            self.model_path = os.path.join(self.base_path, model_name, "models")
+            self.accuracy_path = os.path.join(
+                self.base_path, model_name, "accuracies.json"
+            )
             self.accuracy_plot_path = os.path.join(
-                base_path, model_name, "accuracy_plot.png"
+                self.base_path, model_name, "accuracy_plot.png"
             )
             os.makedirs(self.model_path, exist_ok=True)
 
@@ -42,8 +45,9 @@ class Runner:
         torch.save(self.model.state_dict(), filename)
 
     def update_accuracy_json(self, accuracies):
-        with open(self.accuracy_path, "w") as f:
-            json.dump(accuracies, f)
+        f = open(self.accuracy_path, "w")
+        json.dump(accuracies, f)
+        f.close()
 
     def plot_accuracies(self, accuracies):
         epochs = list(range(1, len(accuracies) + 1))
@@ -52,10 +56,12 @@ class Runner:
         plt.ylabel("Accuracy (%)")
         plt.title(f"Accuracy of {self.model_name}")
         plt.savefig(self.accuracy_plot_path, dpi=1200)
+        plt.clf()
 
     def accuracies(self):
-        with open(self.accuracy_path, "r") as f:
-            accuracies = json.load(f)
+        f = open(self.accuracy_path, "r")
+        accuracies = json.load(f)
+        f.close()
         return accuracies
 
     def train_and_test(self, trainloader, testloader, epochs=10):

@@ -1,38 +1,29 @@
 import matplotlib.pyplot as plt
 
-from Learner import Learner
+from FederatedLearner import FederatedLearner
 
 
-class Benchmark:
+class FederatedBenchmark:
     def __init__(
         self,
         models,
         model_names,
-        trainloader,
+        loaders,
         testloader,
         title="Model Comparison",
         epochs=10,
     ):
-        """
-        Initialize the Benchmark class with models, their names, and data loaders.
-
-        :param models: A list of model instances.
-        :param model_names: A list of names corresponding to the models.
-        :param trainloader: DataLoader for the training set.
-        :param testloader: DataLoader for the test set.
-        :param epochs: Number of epochs to train each model.
-        """
         self.title = title
         self.models = models
         self.model_names = model_names
-        self.trainloader = trainloader
-        self.testloader = testloader
+        self.loaders = loaders  # Assuming this is a list of training loaders for federated training
+        self.testloader = testloader  # A single test loader for evaluating the global model
         self.epochs = epochs
-        self.results = {}
+        self.results = {}  # Initialize the results dictionary here
 
     def run_benchmark(self):
         """
-        Run benchmarking for all models sequentially.
+        Run benchmarking for all models sequentially, accommodating the federated learning setup.
         """
         for model, name in zip(self.models, self.model_names):
             print(f"\n\n=== {name} ===\n")
@@ -41,16 +32,9 @@ class Benchmark:
         self.plot_results()
 
     def run_model(self, model, name):
-        """
-        Train and test a model, and save its accuracies.
-
-        :param model: The model instance to run.
-        :param name: The name of the model.
-        """
-        l = Learner(f"dump/{self.title}/{name}")
-        l.set_model(model, name)
-        l.train_and_test(self.trainloader, self.testloader, self.epochs)
-        self.results[name] = l.accuracies()
+        federated_learner = FederatedLearner(model, f'dump/{self.title}/{name}')
+        federated_learner.federated_train(self.loaders, self.testloader, self.epochs)
+        self.results[name] = federated_learner.accuracies  # Store accuracies for each model
 
     def plot_results(self):
         """

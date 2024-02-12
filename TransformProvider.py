@@ -11,8 +11,8 @@ class GridTransform:
     def __call__(self, img):
         tensor = transforms.ToTensor()(img)
         blank = torch.zeros_like(tensor)
-        slice_height = tensor.shape[1] // 4
-        slice_width = tensor.shape[2] // 4
+        slice_height = tensor.shape[1] // 2
+        slice_width = tensor.shape[2] // 2
 
         slices = (
             slice(None),
