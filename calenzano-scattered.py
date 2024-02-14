@@ -9,6 +9,7 @@ from torchvision.models import resnet18, resnet34, resnet50, resnet101, resnet15
 from TransformProvider import ScatterTransform
 from utils import plot_transformed_images
 
+
 def main():
 
     models_config = [
@@ -26,7 +27,7 @@ def main():
 
     loaders = []
     total = 4
-    title=f"Scatter{total}Train FullTest Benchmark",
+    title = f"Scatter{total}Train FullTest Benchmark"
 
     for i in range(total):
         key = f"scatter_{i}"
