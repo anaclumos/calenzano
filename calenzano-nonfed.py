@@ -2,17 +2,17 @@ from Benchmark import Benchmark
 from DataProvider import DataProvider
 from models.cnn import CNN
 from models.mlp import MLP
-from models.resnet import BasicBlock, Bottleneck, ResNet
+from torchvision.models import resnet18, resnet34, resnet50, resnet101, resnet152
 
 
 def main():
 
     models_config = [
-        (ResNet(BasicBlock, [2, 2, 2, 2], num_classes=10), "ResNet18"),
-        (ResNet(BasicBlock, [3, 4, 6, 3], num_classes=10), "ResNet34"),
-        (ResNet(Bottleneck, [3, 4, 6, 3], num_classes=10), "ResNet50"),
-        (ResNet(Bottleneck, [3, 4, 23, 3], num_classes=10), "ResNet101"),
-        (ResNet(Bottleneck, [3, 8, 36, 3], num_classes=10), "ResNet152"),
+        (resnet18(num_classes=10), "ResNet18"),
+        (resnet34(num_classes=10), "ResNet34"),
+        (resnet50(num_classes=10), "ResNet50"),
+        (resnet101(num_classes=10), "ResNet101"),
+        (resnet152(num_classes=10), "ResNet152"),
         (CNN(num_classes=10), "CNN"),
         (MLP(num_classes=10), "MLP"),
     ]
