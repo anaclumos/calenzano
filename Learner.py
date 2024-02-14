@@ -26,13 +26,9 @@ class Learner:
     def init_paths(self, model_name=""):
 
         if model_name:
-            self.model_path = os.path.join(self.base_path, model_name, "models")
-            self.accuracy_path = os.path.join(
-                self.base_path, model_name, "accuracies.json"
-            )
-            self.accuracy_plot_path = os.path.join(
-                self.base_path, model_name, "accuracy_plot.png"
-            )
+            self.model_path = os.path.join(self.base_path, "models")
+            self.accuracy_path = os.path.join(self.base_path, "accuracies.json")
+            self.accuracy_plot_path = os.path.join(self.base_path, "accuracy_plot.png")
             os.makedirs(self.model_path, exist_ok=True)
 
     def set_model(self, model, model_name):
