@@ -7,29 +7,7 @@ from models.cnn import CNN
 from models.mlp import MLP
 from torchvision.models import resnet18, resnet34, resnet50, resnet101, resnet152
 from TransformProvider import ScatterTransform
-
-
-def imshow(img):
-    """
-    Function to show an image.
-    """
-    npimg = img.numpy()
-    plt.imshow(np.transpose(npimg, (1, 2, 0)))
-
-
-def plot_transformed_images(loader, num_images=4):
-    """
-    Function to plot example images to verify the transformations.
-    """
-    dataiter = iter(loader)
-    images, labels = next(dataiter)
-
-    plt.figure(figsize=(10, 10))
-    for i in range(num_images):
-        plt.subplot(1, num_images, i + 1)
-        imshow(images[i])
-    plt.show()
-
+from utils import plot_transformed_images
 
 def main():
 
@@ -48,6 +26,7 @@ def main():
 
     loaders = []
     total = 4
+    title=f"Scatter{total}Train FullTest Benchmark",
 
     for i in range(total):
         key = f"scatter_{i}"
@@ -58,14 +37,14 @@ def main():
 
     _, full_testloader = DataProvider.get_instance(None).get_loaders()
 
-    plot_transformed_images(trainloader)
+    plot_transformed_images(trainloader, save_path=f"./dump/{title}/example.png")
 
     benchmark = FederatedBenchmark(
         models,
         model_names,
         loaders,
         full_testloader,
-        title=f"Scatter{total}Train FullTest Benchmark",
+        title=title,
         epochs=50,
     )
 
