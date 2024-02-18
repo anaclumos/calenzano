@@ -13,13 +13,10 @@ from utils import plot_transformed_images
 def main():
 
     models_config = [
+        (MLP(num_classes=10), "MLP"),
+        (CNN(num_classes=10), "CNN"),
         (resnet18(num_classes=10), "ResNet18"),
         (resnet34(num_classes=10), "ResNet34"),
-        (resnet50(num_classes=10), "ResNet50"),
-        (resnet101(num_classes=10), "ResNet101"),
-        (resnet152(num_classes=10), "ResNet152"),
-        (CNN(num_classes=10), "CNN"),
-        (MLP(num_classes=10), "MLP"),
     ]
 
     models = [model for model, _ in models_config]
