@@ -1,14 +1,11 @@
-import torch
 import torch.nn as nn
 import torch.nn.functional as F
-import torch.optim as optim
-import torchvision
 import torchvision.transforms as transforms
 
 
-class MLP(nn.Module):
+class QuadLayerFC_FlattenReLU_MLP(nn.Module):
     def __init__(self, num_classes=10):
-        super(MLP, self).__init__()
+        super(QuadLayerFC_FlattenReLU_MLP, self).__init__()
         self.fc1 = nn.Linear(32 * 32 * 3, 512)  # Input layer
         self.fc2 = nn.Linear(512, 256)  # Hidden layer
         self.fc3 = nn.Linear(256, 128)  # Hidden layer
