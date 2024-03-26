@@ -1,12 +1,8 @@
-import matplotlib.pyplot as plt
-import numpy as np
-
 from DataProvider import DataProvider
 from FederatedBenchmark import FederatedBenchmark
-from models.cnn import TripleConvPoolReLU_FlatFC_CNN
+from models.cnn import DualConvPair_MaxPool_DualFCReLU_CNN, TripleConvPoolReLU_FlatFC_CNN
 from models.mlp import QuadLayerFC_FlattenReLU_MLP
-from torchvision.models import resnet18, resnet34, resnet50, resnet101, resnet152
-from TransformProvider import ScatterTransform
+from TransformProvider import ScatterAllowingDupedTransform
 from utils import plot_transformed_images
 
 
@@ -14,9 +10,6 @@ def main():
 
     models_config = [
         (QuadLayerFC_FlattenReLU_MLP(num_classes=10), "QuadLayerFC_FlattenReLU_MLP"),
-        (TripleConvPoolReLU_FlatFC_CNN(num_classes=10), "TripleConvPoolReLU_FlatFC_CNN"),
-        (resnet18(num_classes=10), "ResNet18"),
-        (resnet34(num_classes=10), "ResNet34"),
     ]
 
     models = [model for model, _ in models_config]
@@ -24,11 +17,11 @@ def main():
 
     loaders = []
     total = 4
-    title = f"Scatter{total}Train FullTest Max-AvgNonZero Benchmark"
+    title = f"Scatter{total}AllowingDupedTrain FullTest Benchmark (MLP 1000 Epoches)"
 
     for i in range(total):
         key = f"scatter_{i}"
-        transform = ScatterTransform(seed=42, idx=i, desired_dataset_count=total)
+        transform = ScatterAllowingDupedTransform(idx=i, desired_dataset_count=total)
         provider = DataProvider.get_instance(key, transform)
         trainloader, _ = provider.get_loaders()
         loaders.append(trainloader)
@@ -43,7 +36,7 @@ def main():
         loaders,
         full_testloader,
         title=title,
-        epochs=50,
+        epochs=1000,
     )
 
     benchmark.run_benchmark()

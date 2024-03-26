@@ -19,7 +19,7 @@ def main():
 
     loaders = []
     total = 4
-    title = f"Scatter{total}AllowingDupedTrain FullTest Benchmark (CNN-MLP 200 Epoches)"
+    title = f"Scatter{total}AllowingDupedTrain FullTest Max-AvgNonZero Benchmark (CNN-MLP 200 Epoches)"
 
     for i in range(total):
         key = f"scatter_{i}"
