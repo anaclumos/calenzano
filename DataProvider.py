@@ -35,14 +35,14 @@ class DataProvider:
 
     def _initialize_data(self):
         self.trainset = datasets.CIFAR10(
-            root="./data", train=True, download=True, transform=self.transform
+            root="./data", train=True, download=True, transform=transforms.ToTensor()
         )
         self.trainloader = torch.utils.data.DataLoader(
             self.trainset, batch_size=64, shuffle=True
         )
 
         self.testset = datasets.CIFAR10(
-            root="./data", train=False, download=True, transform=self.transform
+            root="./data", train=False, download=True, transform=transforms.ToTensor()
         )
         self.testloader = torch.utils.data.DataLoader(
             self.testset, batch_size=64, shuffle=False

@@ -10,6 +10,7 @@ class FederatedBenchmark:
         model_names,
         loaders,
         testloader,
+        strategies,
         title="Model Comparison",
         epochs=10,
     ):
@@ -20,19 +21,20 @@ class FederatedBenchmark:
         self.testloader = testloader  # A single test loader for evaluating the global model
         self.epochs = epochs
         self.results = {}  # Initialize the results dictionary here
+        self.strategies = strategies
 
     def run_benchmark(self):
         """
         Run benchmarking for all models sequentially, accommodating the federated learning setup.
         """
-        for model, name in zip(self.models, self.model_names):
+        for model, name, strategy in zip(self.models, self.model_names, self.strategies):
             print(f"\n\n=== {name} ===\n")
-            self.run_model(model, name)
+            self.run_model(model, name, strategy)
 
         self.plot_results()
 
-    def run_model(self, model, name):
-        federated_learner = FederatedLearner(model, f'dump/{self.title}/{name}')
+    def run_model(self, model, name, strategy):
+        federated_learner = FederatedLearner(model, f'dump/{self.title}/{name}', strategy)
         federated_learner.federated_train(self.loaders, self.testloader, self.epochs)
         self.results[name] = federated_learner.accuracies  # Store accuracies for each model
 

@@ -13,7 +13,7 @@ def process_files(directory):
         # Check if the entry is a file
         if os.path.isfile(entry_path):
             # Check if the file ends with '.py'
-            if entry_path.endswith('.py'):
+            if entry_path.endswith('.py') and "archive" not in entry_path:
                 # Open the file and read its contents
                 with open(entry_path, 'r') as f:
                     contents = f.read()
